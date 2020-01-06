@@ -16,9 +16,13 @@ gulp.task('watch', ['scripts'], () => {
     gulp.watch('src/**/*.ts', ['scripts']);
 });
 
-gulp.task('assets', function() {
+gulp.task('assets', function () {
 
     return gulp.src(JSON_FILES).pipe(gulp.dest('dist'));
 });
+
+// gulp.task('default', gulp.series('build', function () {
+//     browser.init({ server: './_site', port: port });
+// }));
 
 gulp.task('default', ['watch', 'assets']);
