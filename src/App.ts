@@ -36,7 +36,7 @@ class App {
         arrayFileRoutes.forEach(file => {
 
             let routeInstance = require(`./${file.replace(/\.[^/.]+$/, '')}`);
-            let fn = file.replace('routes', '').split('\\').join('/').replace(/\.[^/.]+$/, '');
+            let fn = `/api${file.replace('routes', '').split('\\').join('/').replace(/\.[^/.]+$/, '')}`;
 
             this.express.use(fn, routeInstance.default.getRouter());
             console.log(`Route ${fn} --> OK`);

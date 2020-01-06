@@ -1,28 +1,33 @@
 const gulp = require('gulp');
+const babel = require('gulp-babel');
 const ts = require('gulp-typescript');
 const JSON_FILES = ['src/*.json', 'src/**/*.json'];
 
 // Indicates to gulp the typescript configuration
 const tsProject = ts.createProject('tsconfig.json');
 
-gulp.task('scripts', () => {
+const scripts = () => {
 
-    const tsResult = tsProject.src().pipe(tsProject());
-    return tsResult.js.pipe(gulp.dest('dist'));
-});
+    return tsProject.src()
+        .pipe(tsProject()).js
+        .pipe(babel())
+        .pipe(gulp.dest('dist'));
+};
 
-gulp.task('watch', ['scripts'], () => {
+const watch = () => {
 
-    gulp.watch('src/**/*.ts', ['scripts']);
-});
+    gulp.watch('src/**/*.ts', scripts);
+};
 
-gulp.task('assets', function () {
+const assets = () => {
 
     return gulp.src(JSON_FILES).pipe(gulp.dest('dist'));
-});
+};
 
-// gulp.task('default', gulp.series('build', function () {
-//     browser.init({ server: './_site', port: port });
-// }));
+exports.scripts = scripts;
+exports.watch = watch;
+exports.assets = assets;
 
-gulp.task('default', ['watch', 'assets']);
+const build = gulp.series(gulp.parallel(scripts));
+gulp.task('build', build);
+gulp.task('default', build);
