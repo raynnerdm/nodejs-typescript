@@ -5,7 +5,7 @@ export class ClientService {
 
         return [
             {
-                message: 'Cliente'
+                message: 'Client name'
             }
         ];
     }
